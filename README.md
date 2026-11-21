@@ -1,12 +1,12 @@
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&height=230&color=0:FFF3B0,45:FFD700,100:8A6508&text=Hello%2C%20I'm%20YOUR_NAME&fontColor=2b2208&fontSize=46&fontAlignY=38&desc=Liquid%20Gold%20%E2%80%A2%20Glass%20%E2%80%A2%20Code&descAlignY=58&descSize=18&animation=twinkling" width="100%" />
+<img src="https://capsule-render.vercel.app/api?type=waving&height=230&color=0:FFF3B0,45:FFD700,100:8A6508&text=Hello%2C%20I'm%20Flash-Y&fontColor=2b2208&fontSize=46&fontAlignY=38&desc=Liquid%20Gold%20%E2%80%A2%20Glass%20%E2%80%A2%20Code&descAlignY=58&descSize=18&animation=twinkling" width="100%" />
 
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=22&pause=1100&color=F7D774&center=true&vCenter=true&width=700&height=50&lines=Full-Stack+Developer;Open+Source+Enthusiast;Turning+coffee+into+code;Always+learning+something+new" alt="Typing intro" />
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=22&pause=1100&color=F7D774&center=true&vCenter=true&width=700&height=50&lines=Full-Stack+Developer;Open+Source+Enthusiast;Turning+coffee+into+code;Always+learning+something+new"  />
 
 <br/><br/>
 
-<img src="./assets/profile-card.svg" alt="Animated profile card" width="100%" />
+<img src="./assets/profile-card.svg"  width="100%" />
 
 </div>
 
@@ -24,7 +24,7 @@
 ## 📊 Contribution Bar Graph
 
 <div align="center">
-<img src="./assets/contrib-bars.svg" alt="Contribution bar graph" width="100%" />
+<img src="./assets/contrib-bars.svg"  width="100%" />
 </div>
 
 <div align="center">
