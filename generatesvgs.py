@@ -1,4 +1,4 @@
-"""Generates cyberpunk liquid-glass SVGs for the Flash-Y GitHub profile:
+"""Generates liquid-gold glass SVGs for the Flash-Y GitHub profile:
   assets/profile-card.svg  animated avatar card
   assets/contrib-bars.svg  weekly contribution BAR graph (last year)
   assets/skills.svg        floating glass skill chips
@@ -41,23 +41,23 @@ def avatar_b64(url):
 
 DEFS = """
 <linearGradient id="neon" x1="0" y1="0" x2="1" y2="1">
-  <stop offset="0" stop-color="#FF4DA6"/><stop offset=".5" stop-color="#A855F7"/><stop offset="1" stop-color="#38BDF8"/>
+  <stop offset="0" stop-color="#FFF3B0"/><stop offset=".5" stop-color="#FFD700"/><stop offset="1" stop-color="#B8860B"/>
 </linearGradient>
 <linearGradient id="neonV" x1="0" y1="0" x2="0" y2="1">
-  <stop offset="0" stop-color="#FF4DA6"/><stop offset=".5" stop-color="#A855F7"/><stop offset="1" stop-color="#0070F3"/>
+  <stop offset="0" stop-color="#FFF3B0"/><stop offset=".5" stop-color="#FFD700"/><stop offset="1" stop-color="#8A6508"/>
 </linearGradient>
 <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-  <stop offset="0" stop-color="#1a0d33"/><stop offset=".5" stop-color="#110a26"/><stop offset="1" stop-color="#08101f"/>
+  <stop offset="0" stop-color="#2b2208"/><stop offset=".5" stop-color="#16110a"/><stop offset="1" stop-color="#0d0b07"/>
 </linearGradient>
 <linearGradient id="sheen" x1="0" y1="0" x2="0" y2="1">
   <stop offset="0" stop-color="#fff" stop-opacity=".12"/><stop offset="1" stop-color="#fff" stop-opacity="0"/>
 </linearGradient>
 <linearGradient id="edge" x1="0" y1="0" x2="1" y2="1">
-  <stop offset="0" stop-color="#FF4DA6" stop-opacity=".75"/><stop offset=".5" stop-color="#A855F7" stop-opacity=".25"/>
-  <stop offset="1" stop-color="#38BDF8" stop-opacity=".75"/>
+  <stop offset="0" stop-color="#FFF3B0" stop-opacity=".75"/><stop offset=".5" stop-color="#FFD700" stop-opacity=".25"/>
+  <stop offset="1" stop-color="#B8860B" stop-opacity=".75"/>
 </linearGradient>
 <linearGradient id="shimmer" gradientUnits="userSpaceOnUse" x1="-300" y1="0" x2="0" y2="0">
-  <stop offset="0" stop-color="#FF4DA6"/><stop offset=".5" stop-color="#FFFFFF"/><stop offset="1" stop-color="#38BDF8"/>
+  <stop offset="0" stop-color="#FFF3B0"/><stop offset=".5" stop-color="#FFFFFF"/><stop offset="1" stop-color="#B8860B"/>
   <animate attributeName="x1" values="-300;700;-300" dur="6s" repeatCount="indefinite"/>
   <animate attributeName="x2" values="0;1000;0" dur="6s" repeatCount="indefinite"/>
 </linearGradient>
@@ -92,7 +92,7 @@ def profile_card(u, total):
     .t{animation:rise .9s ease-out both}
     """ % FONT
     sparks = "".join(
-        f'<path class="sp" style="animation-delay:{d}s" fill="#FF9ED8" d="M{x} {y-7}L{x+2} {y-2}L{x+7} {y}L{x+2} {y+2}L{x} {y+7}L{x-2} {y+2}L{x-7} {y}L{x-2} {y-2}Z"/>'
+        f'<path class="sp" style="animation-delay:{d}s" fill="#FFE98A" d="M{x} {y-7}L{x+2} {y-2}L{x+7} {y}L{x+2} {y+2}L{x} {y+7}L{x-2} {y+2}L{x-7} {y}L{x-2} {y-2}Z"/>'
         for x, y, d in [(60, 60, 0), (250, 50, 1), (240, 235, 2), (50, 220, 1.5), (820, 50, .6), (850, 230, 2.2)])
     stats = [("Repos", u["repositories"]["totalCount"]), ("Followers", u["followers"]["totalCount"]),
              ("Contributions / yr", total)]
@@ -100,23 +100,23 @@ def profile_card(u, total):
     for i, (k, v) in enumerate(stats):
         x = 330 + i * 190
         stat_svg += (f'<g class="t" style="animation-delay:{.6+i*.15}s">'
-                     f'<rect x="{x}" y="190" width="170" height="62" rx="14" fill="#fff" fill-opacity=".05" stroke="#A855F7" stroke-opacity=".45"/>'
+                     f'<rect x="{x}" y="190" width="170" height="62" rx="14" fill="#fff" fill-opacity=".05" stroke="#FFD700" stroke-opacity=".45"/>'
                      f'<rect x="{x}" y="190" width="170" height="30" rx="14" fill="url(#sheen)"/>'
                      f'<text x="{x+85}" y="219" text-anchor="middle" font-size="22" font-weight="700" fill="url(#neon)">{v}</text>'
-                     f'<text x="{x+85}" y="240" text-anchor="middle" font-size="11" fill="#B9A9E0" letter-spacing="1">{k.upper()}</text></g>')
+                     f'<text x="{x+85}" y="240" text-anchor="middle" font-size="11" fill="#CDB46A" letter-spacing="1">{k.upper()}</text></g>')
     return f"""<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}">
 <defs>{DEFS}<clipPath id="c"><circle cx="150" cy="140" r="74"/></clipPath><style>{css}</style></defs>
 {card_bg(W,H)}
-<circle class="halo" cx="150" cy="140" r="108" fill="none" stroke="#A855F7" stroke-width="10" filter="url(#glow)"/>
+<circle class="halo" cx="150" cy="140" r="108" fill="none" stroke="#FFD700" stroke-width="10" filter="url(#glow)"/>
 <circle class="r1" cx="150" cy="140" r="96" fill="none" stroke="url(#neon)" stroke-width="3" stroke-dasharray="40 14 8 14" stroke-linecap="round"/>
-<circle class="r2" cx="150" cy="140" r="86" fill="none" stroke="#38BDF8" stroke-opacity=".7" stroke-width="1.5" stroke-dasharray="3 9"/>
+<circle class="r2" cx="150" cy="140" r="86" fill="none" stroke="#FFE98A" stroke-opacity=".7" stroke-width="1.5" stroke-dasharray="3 9"/>
 <g class="av"><circle cx="150" cy="140" r="78" fill="url(#neon)"/>
 <image href="{avatar_b64(u['avatarUrl'])}" x="76" y="66" width="148" height="148" clip-path="url(#c)" preserveAspectRatio="xMidYMid slice"/>
 <circle cx="150" cy="140" r="74" fill="url(#sheen)"/></g>
 {sparks}
 <text class="t" x="330" y="95" font-size="44" font-weight="800" fill="url(#shimmer)">{name}</text>
-<text class="t" style="animation-delay:.2s" x="332" y="125" font-size="17" fill="#C9A7FF">@{escape(u['login'])}</text>
-<text class="t" style="animation-delay:.4s" x="332" y="160" font-size="15" fill="#B9A9E0">{bio}</text>
+<text class="t" style="animation-delay:.2s" x="332" y="125" font-size="17" fill="#E6C86A">@{escape(u['login'])}</text>
+<text class="t" style="animation-delay:.4s" x="332" y="160" font-size="15" fill="#CDB46A">{bio}</text>
 {stat_svg}
 </svg>"""
 
@@ -145,16 +145,16 @@ def contrib_bars(cal):
                  f'height="{h:.1f}" rx="{min(3,bw/2):.1f}" fill="url(#neonV)" opacity="{op}"><title>{c} contributions</title></rect>')
         month = w["contributionDays"][0]["date"][5:7]
         if month != prev:
-            labels += f'<text x="{x:.1f}" y="{H-24}" font-size="11" fill="#B9A9E0">{months[int(month)-1]}</text>'
+            labels += f'<text x="{x:.1f}" y="{H-24}" font-size="11" fill="#CDB46A">{months[int(month)-1]}</text>'
             prev = month
-    grid = "".join(f'<line x1="{L}" x2="{W-R}" y1="{T+ch*k/4:.1f}" y2="{T+ch*k/4:.1f}" stroke="#A855F7" stroke-opacity=".15" stroke-dasharray="3 5"/>' for k in range(5))
+    grid = "".join(f'<line x1="{L}" x2="{W-R}" y1="{T+ch*k/4:.1f}" y2="{T+ch*k/4:.1f}" stroke="#FFD700" stroke-opacity=".15" stroke-dasharray="3 5"/>' for k in range(5))
     return f"""<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}">
 <defs>{DEFS}<style>{css}</style></defs>
 {card_bg(W,H)}
 <text class="f" x="{L}" y="46" font-size="22" font-weight="700" fill="url(#neon)">Contribution Activity</text>
-<text class="f" x="{L}" y="68" font-size="12" fill="#B9A9E0">Weekly commits, PRs, issues &amp; reviews over the last year</text>
+<text class="f" x="{L}" y="68" font-size="12" fill="#CDB46A">Weekly commits, PRs, issues &amp; reviews over the last year</text>
 <text class="f" x="{W-R}" y="46" text-anchor="end" font-size="26" font-weight="800" fill="url(#neon)">{cal['totalContributions']}</text>
-<text class="f" x="{W-R}" y="66" text-anchor="end" font-size="11" fill="#B9A9E0" letter-spacing="1">TOTAL · PEAK WEEK {max(counts)}</text>
+<text class="f" x="{W-R}" y="66" text-anchor="end" font-size="11" fill="#CDB46A" letter-spacing="1">TOTAL · PEAK WEEK {max(counts)}</text>
 {grid}{bars}{labels}
 </svg>"""
 
@@ -166,7 +166,7 @@ def skills_svg():
     @keyframes pop{from{opacity:0;transform:scale(.8)}to{opacity:1;transform:scale(1)}}
     .chip{transform-box:fill-box;transform-origin:center;animation:pop .6s ease-out both,bob 4s ease-in-out infinite}
     """ % FONT
-    dots = ["#FF4DA6", "#C77DFF", "#A855F7", "#6C9CFF", "#38BDF8"]
+    dots = ["#FFF3B0", "#FFE98A", "#FFD700", "#E6B422", "#B8860B"]
     widths = [len(s) * 9 + 62 for s in SKILLS]
     gap = 18
     x = (W - (sum(widths) + gap * (len(SKILLS) - 1))) / 2
@@ -176,12 +176,12 @@ def skills_svg():
                   f'<rect x="{x:.0f}" y="46" width="{w}" height="58" rx="29" fill="#fff" fill-opacity=".06" stroke="url(#edge)" stroke-width="1.4"/>'
                   f'<rect x="{x:.0f}" y="46" width="{w}" height="28" rx="14" fill="url(#sheen)"/>'
                   f'<circle cx="{x+28:.0f}" cy="75" r="6" fill="{dots[i%5]}" filter="url(#glow)"/>'
-                  f'<text x="{x+44:.0f}" y="81" font-size="16" font-weight="600" fill="#EDE4FF">{escape(s)}</text></g>')
+                  f'<text x="{x+44:.0f}" y="81" font-size="16" font-weight="600" fill="#FFF3D0">{escape(s)}</text></g>')
         x += w + gap
     return f"""<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}">
 <defs>{DEFS}<style>{css}</style></defs>
 {card_bg(W,H)}
-<text x="44" y="30" font-size="12" fill="#B9A9E0" letter-spacing="2">LANGUAGES &amp; TECH</text>
+<text x="44" y="30" font-size="12" fill="#CDB46A" letter-spacing="2">LANGUAGES &amp; TECH</text>
 {chips}
 </svg>"""
 
@@ -202,11 +202,11 @@ def repo_card(r, idx):
     .ln{stroke-dasharray:260;animation:line 1.6s ease-out both}
     .dot{animation:blink 2.4s ease-in-out infinite}
     """ % (FONT, idx * .6)
-    desc_svg = "".join(f'<text x="24" y="{88+i*20}" font-size="13" fill="#C9BDEB">{escape(l)}</text>' for i, l in enumerate(lines))
+    desc_svg = "".join(f'<text x="24" y="{88+i*20}" font-size="13" fill="#E3D3A0">{escape(l)}</text>' for i, l in enumerate(lines))
     lang_svg = ""
     if lang:
-        lang_svg = (f'<circle class="dot" cx="30" cy="150" r="5" fill="{lang.get("color") or "#A855F7"}"/>'
-                    f'<text x="42" y="154" font-size="12" fill="#B9A9E0">{escape(lang["name"])}</text>')
+        lang_svg = (f'<circle class="dot" cx="30" cy="150" r="5" fill="{lang.get("color") or "#FFD700"}"/>'
+                    f'<text x="42" y="154" font-size="12" fill="#CDB46A">{escape(lang["name"])}</text>')
     return f"""<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}">
 <defs>{DEFS}<style>{css}</style></defs>
 <g class="card">
@@ -216,7 +216,7 @@ def repo_card(r, idx):
 <line class="ln" x1="24" y1="62" x2="266" y2="62" stroke="url(#neon)" stroke-width="1.5" stroke-linecap="round"/>
 {desc_svg}
 {lang_svg}
-<text x="266" y="154" text-anchor="end" font-size="12" fill="#B9A9E0">★ {r['stargazerCount']}   ⑂ {r['forkCount']}</text>
+<text x="266" y="154" text-anchor="end" font-size="12" fill="#CDB46A">★ {r['stargazerCount']}   ⑂ {r['forkCount']}</text>
 </g>
 </svg>"""
 
