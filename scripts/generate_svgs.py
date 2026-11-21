@@ -195,13 +195,11 @@ def repo_card(r, idx):
     lang = r.get("primaryLanguage") or {}
     css = """
     text{%s}
-    @keyframes drift{0%%,100%%{transform:translateY(0)}50%%{transform:translateY(-4px)}}
     @keyframes line{from{stroke-dashoffset:260}to{stroke-dashoffset:0}}
     @keyframes blink{0%%,100%%{opacity:.4}50%%{opacity:1}}
-    .card{animation:drift 5s ease-in-out infinite;animation-delay:%ss}
     .ln{stroke-dasharray:260;animation:line 1.6s ease-out both}
     .dot{animation:blink 2.4s ease-in-out infinite}
-    """ % (FONT, idx * .6)
+    """ % FONT
     desc_svg = "".join(f'<text x="24" y="{88+i*20}" font-size="13" fill="#E3D3A0">{escape(l)}</text>' for i, l in enumerate(lines))
     lang_svg = ""
     if lang:
