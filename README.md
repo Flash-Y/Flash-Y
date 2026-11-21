@@ -32,7 +32,7 @@
 ## Skills
 
 <div align="center">
-<img src="./assets/skills.svg" alt="JavaScript, Tailwind CSS, React with Vite, Python, Node.js" width="100%" />
+<img src="./assets/skills.svg" alt="JavaScript, React with Vite, Python, Node.js" width="100%" />
 </div>
 
 ---
