@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&height=230&color=0:FFF3B0,45:FFD700,100:8A6508&text=Hello%2C%20I'm%20Flash-Y&fontColor=2b2208&fontSize=46&fontAlignY=38&desc=Liquid%20Gold%20%E2%80%A2%20Glass%20%E2%80%A2%20Code&descAlignY=58&descSize=18&animation=twinkling" width="100%" />
+<img src="https://capsule-render.vercel.app/api?type=waving&height=230&color=0:FFF3B0,45:FFD700,100:8A6508&text=Hello%2C%20I'm%20Flash-Y&fontColor=2b2208&fontSize=46&fontAlignY=38&desc=&descAlignY=58&descSize=18&animation=twinkling" width="100%" />
 
 <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=22&pause=1100&color=F7D774&center=true&vCenter=true&width=700&height=50&lines=Full-Stack+Developer;Open+Source+Enthusiast;Turning+coffee+into+code;Always+learning+something+new"  />
 
@@ -12,16 +12,16 @@
 
 ---
 
-## ✨ About Me
+##  About Me
 
-- 🔭 Currently learning Reactjs+Vite
-- 🌱 Planned to work on backend devlopment
-- 💬 I can work with frontend+backend
-- ⚡ Fun fact: I am weird
+- Currently learning Reactjs+Vite
+- Planned to work on backend devlopment
+- I can work with frontend+backend
+- Fun fact: I am weird
 
 ---
 
-## 📊 Contribution Bar Graph
+## Contribution Bar Graph
 
 <div align="center">
 <img src="./assets/contrib-bars.svg"  width="100%" />
@@ -35,7 +35,7 @@
 
 ---
 
-## 🧠 Languages & Skills
+## Languages & Skills
 
 <div align="center">
 
@@ -63,21 +63,21 @@
 
 ---
 
-## 🏆 Featured Projects
+## Featured Projects
 
 <div align="center">
 
-<a href="https://github.com/Flash-Y/REPO_ONE"><img src="https://github-readme-stats.vercel.app/api/pin/?username=Flash-Y&repo=REPO_ONE&bg_color=135,2b2208,0d0b07&border_color=D4AF37&border_radius=16&title_color=FFD700&text_color=F5E6B8&icon_color=E6B422" width="48%" /></a>
-<a href="https://github.com/Flash-Y/REPO_TWO"><img src="https://github-readme-stats.vercel.app/api/pin/?username=Flash-Y&repo=REPO_TWO&bg_color=135,2b2208,0d0b07&border_color=D4AF37&border_radius=16&title_color=FFD700&text_color=F5E6B8&icon_color=E6B422" width="48%" /></a>
+<a href="https://github.com/Flash-Y/KAFE"><img src="https://github-readme-stats.vercel.app/api/pin/?username=Flash-Y&repo=REPO_ONE&bg_color=135,2b2208,0d0b07&border_color=D4AF37&border_radius=16&title_color=FFD700&text_color=F5E6B8&icon_color=E6B422" width="48%" /></a>
+<a href="https://github.com/Flash-Y/Prop-s"><img src="https://github-readme-stats.vercel.app/api/pin/?username=Flash-Y&repo=REPO_TWO&bg_color=135,2b2208,0d0b07&border_color=D4AF37&border_radius=16&title_color=FFD700&text_color=F5E6B8&icon_color=E6B422" width="48%" /></a>
 
-<a href="https://github.com/Flash-Y/REPO_THREE"><img src="https://github-readme-stats.vercel.app/api/pin/?username=Flash-Y&repo=REPO_THREE&bg_color=135,2b2208,0d0b07&border_color=D4AF37&border_radius=16&title_color=FFD700&text_color=F5E6B8&icon_color=E6B422" width="48%" /></a>
+<a href="https://github.com/Flash-Y/Note"><img src="https://github-readme-stats.vercel.app/api/pin/?username=Flash-Y&repo=REPO_THREE&bg_color=135,2b2208,0d0b07&border_color=D4AF37&border_radius=16&title_color=FFD700&text_color=F5E6B8&icon_color=E6B422" width="48%" /></a>
 <a href="https://github.com/Flash-Y/REPO_FOUR"><img src="https://github-readme-stats.vercel.app/api/pin/?username=Flash-Y&repo=REPO_FOUR&bg_color=135,2b2208,0d0b07&border_color=D4AF37&border_radius=16&title_color=FFD700&text_color=F5E6B8&icon_color=E6B422" width="48%" /></a>
 
 </div>
 
 ---
 
-## 📫 Connect
+##  Connect
 
 <div align="center">
 
