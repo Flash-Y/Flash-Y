@@ -1,90 +1,98 @@
-"""Generates two liquid-gold-glass SVGs for a GitHub profile README:
-  assets/profile-card.svg  -> animated avatar card (spinning rings, shimmer, sparkles)
-  assets/contrib-bars.svg  -> weekly contribution BAR graph for the last year
+"""Generates cyberpunk liquid-glass SVGs for the Flash-Y GitHub profile:
+  assets/profile-card.svg  animated avatar card
+  assets/contrib-bars.svg  weekly contribution BAR graph (last year)
+  assets/skills.svg        floating glass skill chips
+  assets/repo-<name>.svg   one glass card per featured repo
 """
-import os, json, base64, urllib.request
+import os, json, base64, textwrap, urllib.request
 from xml.sax.saxutils import escape
 
-USER = os.environ["GH_USER"]
+USER = os.environ.get("GH_USER", "Flash-Y")
 TOKEN = os.environ["GH_TOKEN"]
+REPOS = ["KAFE", "Prop-s", "Note"]
+SKILLS = ["JavaScript", "Tailwind CSS", "React + Vite", "Python", "Node.js"]
 
-QUERY = """query($login:String!){user(login:$login){
-  name login bio avatarUrl
-  followers{totalCount}
+def gql(query, variables):
+    req = urllib.request.Request(
+        "https://api.github.com/graphql",
+        data=json.dumps({"query": query, "variables": variables}).encode(),
+        headers={"Authorization": f"bearer {TOKEN}", "Content-Type": "application/json",
+                 "User-Agent": "flashy-readme"})
+    with urllib.request.urlopen(req) as r:
+        return json.load(r)["data"]
+
+USER_Q = """query($login:String!){user(login:$login){
+  name login bio avatarUrl followers{totalCount}
   repositories(ownerAffiliations:OWNER){totalCount}
   contributionsCollection{contributionCalendar{totalContributions
     weeks{contributionDays{date contributionCount}}}}}}"""
 
-def gql():
-    req = urllib.request.Request(
-        "https://api.github.com/graphql",
-        data=json.dumps({"query": QUERY, "variables": {"login": USER}}).encode(),
-        headers={"Authorization": f"bearer {TOKEN}", "Content-Type": "application/json",
-                 "User-Agent": "gold-glass-readme"})
-    with urllib.request.urlopen(req) as r:
-        return json.load(r)["data"]["user"]
+def repos_q():
+    parts = "".join(
+        f'r{i}:repository(owner:$login,name:"{n}"){{name description stargazerCount forkCount primaryLanguage{{name color}}}}'
+        for i, n in enumerate(REPOS))
+    return f"query($login:String!){{{parts}}}"
 
 def avatar_b64(url):
     url += ("&" if "?" in url else "?") + "s=260"
-    req = urllib.request.Request(url, headers={"User-Agent": "gold-glass-readme"})
+    req = urllib.request.Request(url, headers={"User-Agent": "flashy-readme"})
     with urllib.request.urlopen(req) as r:
-        mime = r.headers.get_content_type()
-        return f"data:{mime};base64," + base64.b64encode(r.read()).decode()
+        return f"data:{r.headers.get_content_type()};base64," + base64.b64encode(r.read()).decode()
 
 DEFS = """
-<linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
-  <stop offset="0" stop-color="#FFF3B0"/><stop offset=".45" stop-color="#FFD700"/><stop offset="1" stop-color="#B8860B"/>
+<linearGradient id="neon" x1="0" y1="0" x2="1" y2="1">
+  <stop offset="0" stop-color="#FF4DA6"/><stop offset=".5" stop-color="#A855F7"/><stop offset="1" stop-color="#38BDF8"/>
 </linearGradient>
-<linearGradient id="goldV" x1="0" y1="0" x2="0" y2="1">
-  <stop offset="0" stop-color="#FFF3B0"/><stop offset=".35" stop-color="#FFD700"/><stop offset="1" stop-color="#8A6508"/>
+<linearGradient id="neonV" x1="0" y1="0" x2="0" y2="1">
+  <stop offset="0" stop-color="#FF4DA6"/><stop offset=".5" stop-color="#A855F7"/><stop offset="1" stop-color="#0070F3"/>
 </linearGradient>
 <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-  <stop offset="0" stop-color="#2b2208"/><stop offset="1" stop-color="#0d0b07"/>
+  <stop offset="0" stop-color="#1a0d33"/><stop offset=".5" stop-color="#110a26"/><stop offset="1" stop-color="#08101f"/>
 </linearGradient>
 <linearGradient id="sheen" x1="0" y1="0" x2="0" y2="1">
-  <stop offset="0" stop-color="#fff" stop-opacity=".14"/><stop offset="1" stop-color="#fff" stop-opacity="0"/>
+  <stop offset="0" stop-color="#fff" stop-opacity=".12"/><stop offset="1" stop-color="#fff" stop-opacity="0"/>
 </linearGradient>
 <linearGradient id="edge" x1="0" y1="0" x2="1" y2="1">
-  <stop offset="0" stop-color="#FFE98A" stop-opacity=".9"/><stop offset=".5" stop-color="#D4AF37" stop-opacity=".25"/>
-  <stop offset="1" stop-color="#FFD700" stop-opacity=".8"/>
+  <stop offset="0" stop-color="#FF4DA6" stop-opacity=".75"/><stop offset=".5" stop-color="#A855F7" stop-opacity=".25"/>
+  <stop offset="1" stop-color="#38BDF8" stop-opacity=".75"/>
 </linearGradient>
 <linearGradient id="shimmer" gradientUnits="userSpaceOnUse" x1="-300" y1="0" x2="0" y2="0">
-  <stop offset="0" stop-color="#D4AF37"/><stop offset=".5" stop-color="#FFFBE0"/><stop offset="1" stop-color="#D4AF37"/>
-  <animate attributeName="x1" values="-300;700;-300" dur="5s" repeatCount="indefinite"/>
-  <animate attributeName="x2" values="0;1000;0" dur="5s" repeatCount="indefinite"/>
+  <stop offset="0" stop-color="#FF4DA6"/><stop offset=".5" stop-color="#FFFFFF"/><stop offset="1" stop-color="#38BDF8"/>
+  <animate attributeName="x1" values="-300;700;-300" dur="6s" repeatCount="indefinite"/>
+  <animate attributeName="x2" values="0;1000;0" dur="6s" repeatCount="indefinite"/>
 </linearGradient>
 <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
-  <feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+  <feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
 </filter>
 """
 FONT = "font-family:'Segoe UI',Helvetica,Arial,sans-serif;"
 
-def card_bg(w, h):
-    return (f'<rect width="{w}" height="{h}" rx="22" fill="url(#bg)"/>'
-            f'<rect width="{w}" height="{h}" rx="22" fill="url(#sheen)"/>'
-            f'<rect x="1" y="1" width="{w-2}" height="{h-2}" rx="21" fill="none" stroke="url(#edge)" stroke-width="1.6"/>')
+def card_bg(w, h, r=22):
+    return (f'<rect width="{w}" height="{h}" rx="{r}" fill="url(#bg)"/>'
+            f'<rect width="{w}" height="{h}" rx="{r}" fill="url(#sheen)"/>'
+            f'<rect x="1" y="1" width="{w-2}" height="{h-2}" rx="{r-1}" fill="none" stroke="url(#edge)" stroke-width="1.5"/>')
 
 def profile_card(u, total):
     W, H = 900, 280
     name = escape(u["name"] or u["login"])
-    bio = escape((u["bio"] or "Building things, one commit at a time.")[:80])
+    bio = escape((u["bio"] or "Frontend + Backend developer")[:80])
     css = """
     text{%s}
     @keyframes spin{to{transform:rotate(360deg)}}
     @keyframes spinR{to{transform:rotate(-360deg)}}
-    @keyframes pulse{0%%,100%%{opacity:.35}50%%{opacity:.9}}
+    @keyframes pulse{0%%,100%%{opacity:.25}50%%{opacity:.8}}
     @keyframes float{0%%,100%%{transform:translateY(0)}50%%{transform:translateY(-6px)}}
     @keyframes twinkle{0%%,100%%{opacity:0;transform:scale(.4)}50%%{opacity:1;transform:scale(1)}}
     @keyframes rise{from{opacity:0;transform:translateX(-18px)}to{opacity:1;transform:none}}
-    .r1{transform-origin:150px 140px;animation:spin 16s linear infinite}
-    .r2{transform-origin:150px 140px;animation:spinR 24s linear infinite}
+    .r1{transform-origin:150px 140px;animation:spin 14s linear infinite}
+    .r2{transform-origin:150px 140px;animation:spinR 22s linear infinite}
     .halo{animation:pulse 3s ease-in-out infinite}
     .av{animation:float 5s ease-in-out infinite}
     .sp{transform-box:fill-box;transform-origin:center;animation:twinkle 3s ease-in-out infinite}
     .t{animation:rise .9s ease-out both}
     """ % FONT
     sparks = "".join(
-        f'<path class="sp" style="animation-delay:{d}s" fill="#FFE98A" d="M{x} {y-7}L{x+2} {y-2}L{x+7} {y}L{x+2} {y+2}L{x} {y+7}L{x-2} {y+2}L{x-7} {y}L{x-2} {y-2}Z"/>'
+        f'<path class="sp" style="animation-delay:{d}s" fill="#FF9ED8" d="M{x} {y-7}L{x+2} {y-2}L{x+7} {y}L{x+2} {y+2}L{x} {y+7}L{x-2} {y+2}L{x-7} {y}L{x-2} {y-2}Z"/>'
         for x, y, d in [(60, 60, 0), (250, 50, 1), (240, 235, 2), (50, 220, 1.5), (820, 50, .6), (850, 230, 2.2)])
     stats = [("Repos", u["repositories"]["totalCount"]), ("Followers", u["followers"]["totalCount"]),
              ("Contributions / yr", total)]
@@ -92,23 +100,23 @@ def profile_card(u, total):
     for i, (k, v) in enumerate(stats):
         x = 330 + i * 190
         stat_svg += (f'<g class="t" style="animation-delay:{.6+i*.15}s">'
-                     f'<rect x="{x}" y="190" width="170" height="62" rx="14" fill="#FFD700" fill-opacity=".07" stroke="#D4AF37" stroke-opacity=".45"/>'
+                     f'<rect x="{x}" y="190" width="170" height="62" rx="14" fill="#fff" fill-opacity=".05" stroke="#A855F7" stroke-opacity=".45"/>'
                      f'<rect x="{x}" y="190" width="170" height="30" rx="14" fill="url(#sheen)"/>'
-                     f'<text x="{x+85}" y="219" text-anchor="middle" font-size="22" font-weight="700" fill="url(#gold)">{v}</text>'
-                     f'<text x="{x+85}" y="240" text-anchor="middle" font-size="11" fill="#CDB46A" letter-spacing="1">{k.upper()}</text></g>')
+                     f'<text x="{x+85}" y="219" text-anchor="middle" font-size="22" font-weight="700" fill="url(#neon)">{v}</text>'
+                     f'<text x="{x+85}" y="240" text-anchor="middle" font-size="11" fill="#B9A9E0" letter-spacing="1">{k.upper()}</text></g>')
     return f"""<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}">
 <defs>{DEFS}<clipPath id="c"><circle cx="150" cy="140" r="74"/></clipPath><style>{css}</style></defs>
 {card_bg(W,H)}
-<circle class="halo" cx="150" cy="140" r="108" fill="none" stroke="#FFD700" stroke-width="10" filter="url(#glow)"/>
-<circle class="r1" cx="150" cy="140" r="96" fill="none" stroke="url(#gold)" stroke-width="3" stroke-dasharray="40 14 8 14" stroke-linecap="round"/>
-<circle class="r2" cx="150" cy="140" r="86" fill="none" stroke="#FFE98A" stroke-opacity=".7" stroke-width="1.5" stroke-dasharray="3 9"/>
-<g class="av"><circle cx="150" cy="140" r="78" fill="#FFD700"/>
+<circle class="halo" cx="150" cy="140" r="108" fill="none" stroke="#A855F7" stroke-width="10" filter="url(#glow)"/>
+<circle class="r1" cx="150" cy="140" r="96" fill="none" stroke="url(#neon)" stroke-width="3" stroke-dasharray="40 14 8 14" stroke-linecap="round"/>
+<circle class="r2" cx="150" cy="140" r="86" fill="none" stroke="#38BDF8" stroke-opacity=".7" stroke-width="1.5" stroke-dasharray="3 9"/>
+<g class="av"><circle cx="150" cy="140" r="78" fill="url(#neon)"/>
 <image href="{avatar_b64(u['avatarUrl'])}" x="76" y="66" width="148" height="148" clip-path="url(#c)" preserveAspectRatio="xMidYMid slice"/>
 <circle cx="150" cy="140" r="74" fill="url(#sheen)"/></g>
 {sparks}
 <text class="t" x="330" y="95" font-size="44" font-weight="800" fill="url(#shimmer)">{name}</text>
-<text class="t" style="animation-delay:.2s" x="332" y="125" font-size="17" fill="#E6C86A">@{escape(u['login'])}</text>
-<text class="t" style="animation-delay:.4s" x="332" y="160" font-size="15" fill="#CDB46A">{bio}</text>
+<text class="t" style="animation-delay:.2s" x="332" y="125" font-size="17" fill="#C9A7FF">@{escape(u['login'])}</text>
+<text class="t" style="animation-delay:.4s" x="332" y="160" font-size="15" fill="#B9A9E0">{bio}</text>
 {stat_svg}
 </svg>"""
 
@@ -127,34 +135,101 @@ def contrib_bars(cal):
     .f{animation:fade 1.2s ease-out both}
     """ % FONT
     bars, labels, prev = "", "", None
+    months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
     for i, (c, w) in enumerate(zip(counts, weeks)):
         h = max(4, c / mx * ch) if c else 4
         x = L + i * slot + (slot - bw) / 2
         y = T + ch - h
         op = 1 if c else .25
         bars += (f'<rect class="b" style="animation-delay:{i*0.018:.3f}s" x="{x:.1f}" y="{y:.1f}" width="{bw:.1f}" '
-                 f'height="{h:.1f}" rx="{min(3,bw/2):.1f}" fill="url(#goldV)" opacity="{op}"><title>{c} contributions</title></rect>')
+                 f'height="{h:.1f}" rx="{min(3,bw/2):.1f}" fill="url(#neonV)" opacity="{op}"><title>{c} contributions</title></rect>')
         month = w["contributionDays"][0]["date"][5:7]
         if month != prev:
-            name = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][int(month)-1]
-            labels += f'<text x="{x:.1f}" y="{H-24}" font-size="11" fill="#CDB46A">{name}</text>'
+            labels += f'<text x="{x:.1f}" y="{H-24}" font-size="11" fill="#B9A9E0">{months[int(month)-1]}</text>'
             prev = month
-    grid = "".join(f'<line x1="{L}" x2="{W-R}" y1="{T+ch*k/4:.1f}" y2="{T+ch*k/4:.1f}" stroke="#D4AF37" stroke-opacity=".12" stroke-dasharray="3 5"/>' for k in range(5))
-    peak = max(counts)
+    grid = "".join(f'<line x1="{L}" x2="{W-R}" y1="{T+ch*k/4:.1f}" y2="{T+ch*k/4:.1f}" stroke="#A855F7" stroke-opacity=".15" stroke-dasharray="3 5"/>' for k in range(5))
     return f"""<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}">
 <defs>{DEFS}<style>{css}</style></defs>
 {card_bg(W,H)}
-<text class="f" x="{L}" y="46" font-size="22" font-weight="700" fill="url(#gold)">Contribution Activity</text>
-<text class="f" x="{L}" y="68" font-size="12" fill="#CDB46A">Weekly commits, PRs, issues &amp; reviews over the last year</text>
-<text class="f" x="{W-R}" y="46" text-anchor="end" font-size="26" font-weight="800" fill="url(#gold)">{cal['totalContributions']}</text>
-<text class="f" x="{W-R}" y="66" text-anchor="end" font-size="11" fill="#CDB46A" letter-spacing="1">TOTAL · PEAK WEEK {peak}</text>
+<text class="f" x="{L}" y="46" font-size="22" font-weight="700" fill="url(#neon)">Contribution Activity</text>
+<text class="f" x="{L}" y="68" font-size="12" fill="#B9A9E0">Weekly commits, PRs, issues &amp; reviews over the last year</text>
+<text class="f" x="{W-R}" y="46" text-anchor="end" font-size="26" font-weight="800" fill="url(#neon)">{cal['totalContributions']}</text>
+<text class="f" x="{W-R}" y="66" text-anchor="end" font-size="11" fill="#B9A9E0" letter-spacing="1">TOTAL · PEAK WEEK {max(counts)}</text>
 {grid}{bars}{labels}
 </svg>"""
 
+def skills_svg():
+    W, H = 900, 150
+    css = """
+    text{%s}
+    @keyframes bob{0%%,100%%{transform:translateY(0)}50%%{transform:translateY(-5px)}}
+    @keyframes pop{from{opacity:0;transform:scale(.8)}to{opacity:1;transform:scale(1)}}
+    .chip{transform-box:fill-box;transform-origin:center;animation:pop .6s ease-out both,bob 4s ease-in-out infinite}
+    """ % FONT
+    dots = ["#FF4DA6", "#C77DFF", "#A855F7", "#6C9CFF", "#38BDF8"]
+    widths = [len(s) * 9 + 62 for s in SKILLS]
+    gap = 18
+    x = (W - (sum(widths) + gap * (len(SKILLS) - 1))) / 2
+    chips = ""
+    for i, (s, w) in enumerate(zip(SKILLS, widths)):
+        chips += (f'<g class="chip" style="animation-delay:{i*.12:.2f}s,{i*.5:.1f}s">'
+                  f'<rect x="{x:.0f}" y="46" width="{w}" height="58" rx="29" fill="#fff" fill-opacity=".06" stroke="url(#edge)" stroke-width="1.4"/>'
+                  f'<rect x="{x:.0f}" y="46" width="{w}" height="28" rx="14" fill="url(#sheen)"/>'
+                  f'<circle cx="{x+28:.0f}" cy="75" r="6" fill="{dots[i%5]}" filter="url(#glow)"/>'
+                  f'<text x="{x+44:.0f}" y="81" font-size="16" font-weight="600" fill="#EDE4FF">{escape(s)}</text></g>')
+        x += w + gap
+    return f"""<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}">
+<defs>{DEFS}<style>{css}</style></defs>
+{card_bg(W,H)}
+<text x="44" y="30" font-size="12" fill="#B9A9E0" letter-spacing="2">LANGUAGES &amp; TECH</text>
+{chips}
+</svg>"""
+
+def repo_card(r, idx):
+    W, H = 290, 180
+    name = escape(r["name"])
+    desc = r.get("description") or "No description yet."
+    lines = textwrap.wrap(desc, 32)
+    if len(lines) > 2:
+        lines = lines[:2]; lines[1] = lines[1][:29].rstrip() + "…"
+    lang = r.get("primaryLanguage") or {}
+    css = """
+    text{%s}
+    @keyframes drift{0%%,100%%{transform:translateY(0)}50%%{transform:translateY(-4px)}}
+    @keyframes line{from{stroke-dashoffset:260}to{stroke-dashoffset:0}}
+    @keyframes blink{0%%,100%%{opacity:.4}50%%{opacity:1}}
+    .card{animation:drift 5s ease-in-out infinite;animation-delay:%ss}
+    .ln{stroke-dasharray:260;animation:line 1.6s ease-out both}
+    .dot{animation:blink 2.4s ease-in-out infinite}
+    """ % (FONT, idx * .6)
+    desc_svg = "".join(f'<text x="24" y="{88+i*20}" font-size="13" fill="#C9BDEB">{escape(l)}</text>' for i, l in enumerate(lines))
+    lang_svg = ""
+    if lang:
+        lang_svg = (f'<circle class="dot" cx="30" cy="150" r="5" fill="{lang.get("color") or "#A855F7"}"/>'
+                    f'<text x="42" y="154" font-size="12" fill="#B9A9E0">{escape(lang["name"])}</text>')
+    return f"""<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}">
+<defs>{DEFS}<style>{css}</style></defs>
+<g class="card">
+{card_bg(W,H,20)}
+<path d="M24 30h9l3 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H24a2 2 0 0 1-2-2V32a2 2 0 0 1 2-2z" fill="none" stroke="url(#neon)" stroke-width="1.8" transform="translate(0,-2)"/>
+<text x="62" y="42" font-size="21" font-weight="800" fill="url(#neon)">{name}</text>
+<line class="ln" x1="24" y1="62" x2="266" y2="62" stroke="url(#neon)" stroke-width="1.5" stroke-linecap="round"/>
+{desc_svg}
+{lang_svg}
+<text x="266" y="154" text-anchor="end" font-size="12" fill="#B9A9E0">★ {r['stargazerCount']}   ⑂ {r['forkCount']}</text>
+</g>
+</svg>"""
+
 if __name__ == "__main__":
-    u = gql()
+    u = gql(USER_Q, {"login": USER})["user"]
     cal = u["contributionsCollection"]["contributionCalendar"]
+    rd = gql(repos_q(), {"login": USER})
     os.makedirs("assets", exist_ok=True)
-    open("assets/profile-card.svg", "w", encoding="utf-8").write(profile_card(u, cal["totalContributions"]))
-    open("assets/contrib-bars.svg", "w", encoding="utf-8").write(contrib_bars(cal))
+    def w(p, s): open(p, "w", encoding="utf-8").write(s)
+    w("assets/profile-card.svg", profile_card(u, cal["totalContributions"]))
+    w("assets/contrib-bars.svg", contrib_bars(cal))
+    w("assets/skills.svg", skills_svg())
+    for i, n in enumerate(REPOS):
+        r = rd.get(f"r{i}") or {"name": n, "description": None, "stargazerCount": 0, "forkCount": 0}
+        w(f"assets/repo-{n.lower()}.svg", repo_card(r, i))
     print("done")
