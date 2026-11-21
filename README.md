@@ -41,9 +41,9 @@
 
 <div align="center">
 
-<a href="https://github.com/Flash-Y/KAFE"><img src="./assets/repo-kafe.svg" alt="KAFE" width="32%" /></a>
-<a href="https://github.com/Flash-Y/Prop-s"><img src="./assets/repo-prop-s.svg" alt="Prop-s" width="32%" /></a>
-<a href="https://github.com/Flash-Y/Note"><img src="./assets/repo-note.svg" alt="Note" width="32%" /></a>
+<a href="https://github.com/Flash-Y/KAFE"><img src="./assets/repo-kafe.svg" alt="KAFE" width="31%" /></a>
+<a href="https://github.com/Flash-Y/Prop-s"><img src="./assets/repo-prop-s.svg" alt="Prop-s" width="31%" /></a>
+<a href="https://github.com/Flash-Y/Note"><img src="./assets/repo-note.svg" alt="Note" width="31%" /></a>
 
 </div>
 
