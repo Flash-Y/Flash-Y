@@ -10,7 +10,7 @@ from xml.sax.saxutils import escape
 USER = os.environ.get("GH_USER", "Flash-Y")
 TOKEN = os.environ["GH_TOKEN"]
 REPOS = ["KAFE", "Prop-s", "Note"]
-SKILLS = ["JavaScript", "Tailwind CSS", "React + Vite", "Python", "Node.js"]
+SKILLS = ["JavaScript", "React + Vite", "Python", "Node.js"]
 
 def gql(query, variables):
     req = urllib.request.Request(
@@ -159,22 +159,23 @@ def contrib_bars(cal):
 </svg>"""
 
 def skills_svg():
-    W, H = 900, 130
+    W, H = 900, 120
     css = "text{%s}" % FONT
-    widths = [len(s) * 10 + 48 for s in SKILLS]
-    gap = 16
-    x = (W - (sum(widths) + gap * (len(SKILLS) - 1))) / 2
-    chips = ""
-    for s, w in zip(SKILLS, widths):
-        chips += (f'<rect x="{x:.0f}" y="42" width="{w}" height="54" rx="27" fill="#fff" fill-opacity=".06" stroke="url(#edge)" stroke-width="1.4"/>'
-                  f'<rect x="{x:.0f}" y="42" width="{w}" height="26" rx="13" fill="url(#sheen)"/>'
-                  f'<text x="{x+w/2:.0f}" y="76" text-anchor="middle" font-size="16" font-weight="600" fill="#FFF3D0">{escape(s)}</text>')
-        x += w + gap
+    parts = ""
+    for i, s in enumerate(SKILLS):
+        if i:
+            parts += '<tspan dx="16" font-weight="300" fill="#D4AF37">||</tspan>'
+        parts += f'<tspan dx="{16 if i else 0}">{escape(s)}</tspan>'
     return f"""<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}">
-<defs>{DEFS}<style>{css}</style></defs>
+<defs>{DEFS}
+<clipPath id="cc"><rect width="{W}" height="{H}" rx="22"/></clipPath>
+<radialGradient id="b1"><stop offset="0" stop-color="#FFD700" stop-opacity=".25"/><stop offset="1" stop-color="#FFD700" stop-opacity="0"/></radialGradient>
+<radialGradient id="b2"><stop offset="0" stop-color="#FFF3B0" stop-opacity=".16"/><stop offset="1" stop-color="#FFF3B0" stop-opacity="0"/></radialGradient>
+<style>{css}</style></defs>
 {card_bg(W,H)}
-<text x="44" y="28" font-size="12" fill="#CDB46A" letter-spacing="2">LANGUAGES &amp; TECH</text>
-{chips}
+<g clip-path="url(#cc)"><circle cx="130" cy="10" r="150" fill="url(#b1)"/><circle cx="800" cy="130" r="170" fill="url(#b2)"/></g>
+<text x="{W/2}" y="40" text-anchor="middle" font-size="12" font-weight="700" letter-spacing="3" fill="#CDB46A">LANGUAGES &amp; TECH</text>
+<text x="{W/2}" y="82" text-anchor="middle" font-size="22" font-weight="600" fill="#FFF3D0">{parts}</text>
 </svg>"""
 
 def repo_card(r, idx):
