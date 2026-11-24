@@ -1,23 +1,23 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="900" height="120" viewBox="0 0 900 120">
 <defs>
 <linearGradient id="neon" x1="0" y1="0" x2="1" y2="1">
-  <stop offset="0" stop-color="#FFF3B0"/><stop offset=".5" stop-color="#FFD700"/><stop offset="1" stop-color="#B8860B"/>
+  <stop offset="0" stop-color="#F4F5F9"/><stop offset=".5" stop-color="#B9BCC9"/><stop offset="1" stop-color="#6E7384"/>
 </linearGradient>
 <linearGradient id="neonV" x1="0" y1="0" x2="0" y2="1">
-  <stop offset="0" stop-color="#FFF3B0"/><stop offset=".5" stop-color="#FFD700"/><stop offset="1" stop-color="#8A6508"/>
+  <stop offset="0" stop-color="#ECEEF5"/><stop offset=".5" stop-color="#9DA1B0"/><stop offset="1" stop-color="#4B4F5E"/>
 </linearGradient>
 <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-  <stop offset="0" stop-color="#2b2208"/><stop offset=".5" stop-color="#16110a"/><stop offset="1" stop-color="#0d0b07"/>
+  <stop offset="0" stop-color="#25262c"/><stop offset=".5" stop-color="#18191d"/><stop offset="1" stop-color="#0f1013"/>
 </linearGradient>
 <linearGradient id="sheen" x1="0" y1="0" x2="0" y2="1">
-  <stop offset="0" stop-color="#fff" stop-opacity=".12"/><stop offset="1" stop-color="#fff" stop-opacity="0"/>
+  <stop offset="0" stop-color="#fff" stop-opacity=".10"/><stop offset="1" stop-color="#fff" stop-opacity="0"/>
 </linearGradient>
 <linearGradient id="edge" x1="0" y1="0" x2="1" y2="1">
-  <stop offset="0" stop-color="#FFF3B0" stop-opacity=".75"/><stop offset=".5" stop-color="#FFD700" stop-opacity=".25"/>
-  <stop offset="1" stop-color="#B8860B" stop-opacity=".75"/>
+  <stop offset="0" stop-color="#fff" stop-opacity=".5"/><stop offset=".5" stop-color="#fff" stop-opacity=".1"/>
+  <stop offset="1" stop-color="#fff" stop-opacity=".35"/>
 </linearGradient>
 <linearGradient id="shimmer" gradientUnits="userSpaceOnUse" x1="-300" y1="0" x2="0" y2="0">
-  <stop offset="0" stop-color="#FFF3B0"/><stop offset=".5" stop-color="#FFFFFF"/><stop offset="1" stop-color="#B8860B"/>
+  <stop offset="0" stop-color="#8B90A0"/><stop offset=".5" stop-color="#FFFFFF"/><stop offset="1" stop-color="#8B90A0"/>
   <animate attributeName="x1" values="-300;700;-300" dur="6s" repeatCount="indefinite"/>
   <animate attributeName="x2" values="0;1000;0" dur="6s" repeatCount="indefinite"/>
 </linearGradient>
@@ -26,11 +26,11 @@
 </filter>
 
 <clipPath id="cc"><rect width="900" height="120" rx="22"/></clipPath>
-<radialGradient id="b1"><stop offset="0" stop-color="#FFD700" stop-opacity=".25"/><stop offset="1" stop-color="#FFD700" stop-opacity="0"/></radialGradient>
-<radialGradient id="b2"><stop offset="0" stop-color="#FFF3B0" stop-opacity=".16"/><stop offset="1" stop-color="#FFF3B0" stop-opacity="0"/></radialGradient>
+<radialGradient id="b1"><stop offset="0" stop-color="#B9B4FF" stop-opacity=".16"/><stop offset="1" stop-color="#B9B4FF" stop-opacity="0"/></radialGradient>
+<radialGradient id="b2"><stop offset="0" stop-color="#fff" stop-opacity=".09"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
 <style>text{font-family:'Segoe UI',Helvetica,Arial,sans-serif;}</style></defs>
 <rect width="900" height="120" rx="22" fill="url(#bg)"/><rect width="900" height="120" rx="22" fill="url(#sheen)"/><rect x="1" y="1" width="898" height="118" rx="21" fill="none" stroke="url(#edge)" stroke-width="1.5"/>
 <g clip-path="url(#cc)"><circle cx="130" cy="10" r="150" fill="url(#b1)"/><circle cx="800" cy="130" r="170" fill="url(#b2)"/></g>
-<text x="450.0" y="40" text-anchor="middle" font-size="12" font-weight="700" letter-spacing="3" fill="#CDB46A">LANGUAGES &amp; TECH</text>
-<text x="450.0" y="82" text-anchor="middle" font-size="22" font-weight="600" fill="#FFF3D0"><tspan dx="0">JavaScript</tspan><tspan dx="16" font-weight="300" fill="#D4AF37">||</tspan><tspan dx="16">React + Vite</tspan><tspan dx="16" font-weight="300" fill="#D4AF37">||</tspan><tspan dx="16">Python</tspan><tspan dx="16" font-weight="300" fill="#D4AF37">||</tspan><tspan dx="16">Node.js</tspan></text>
+<text x="450.0" y="40" text-anchor="middle" font-size="12" font-weight="700" letter-spacing="3" fill="#9AA0AE">LANGUAGES &amp; TECH</text>
+<text x="450.0" y="82" text-anchor="middle" font-size="22" font-weight="600" fill="#ECEEF4"><tspan dx="0">JavaScript</tspan><tspan dx="16" font-weight="300" fill="#8B90A0">||</tspan><tspan dx="16">React + Vite</tspan><tspan dx="16" font-weight="300" fill="#8B90A0">||</tspan><tspan dx="16">Python</tspan><tspan dx="16" font-weight="300" fill="#8B90A0">||</tspan><tspan dx="16">Node.js</tspan></text>
 </svg>
